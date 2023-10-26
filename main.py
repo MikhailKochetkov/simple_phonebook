@@ -4,7 +4,7 @@ import csv
 from handlers import (
     read_file_data,
     search,
-    add_record_to_file,
+    add_record,
     edit_record)
 from helpers import get_column_headers
 from settings import FILE, HEADERS
@@ -30,7 +30,7 @@ def main():
         print(read_file_data())
     if run == 'a':
         record = [input(f'please enter {field.replace("_", " ")}: ') for field in fields]
-        print(add_record_to_file(record))
+        print(add_record(record))
 
 
 if __name__ == '__main__':

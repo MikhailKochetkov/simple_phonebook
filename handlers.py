@@ -31,7 +31,7 @@ def edit_record():
     pass
 
 
-def add_record_to_file(rec: list):
+def add_record(rec: list):
     try:
         with open(FILE, mode='a', encoding='utf-8', newline='') as file:
             writer = csv.writer(file, delimiter=';')
