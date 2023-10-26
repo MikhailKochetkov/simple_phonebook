@@ -1,13 +1,20 @@
+import os
+import csv
+
 from handlers import (
     read_file_data,
     search,
     add_record_to_file,
     edit_record)
 from helpers import get_column_headers
-from settings import FILE
+from settings import FILE, HEADERS
 
 
 def main():
+    if not os.path.isfile(FILE):
+        with open(FILE, mode='w', newline='') as file:
+            writer = csv.writer(file, delimiter=';')
+            writer.writerow(HEADERS)
     run = input('what do you want to do (search records - s; open phonebook - o; add record - a; edit record - e): ')
     fields = get_column_headers(FILE)
     if run == 's':
