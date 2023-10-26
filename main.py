@@ -8,7 +8,7 @@ from settings import FILE
 
 
 def main():
-    run = input('what do you want to do (search - s; open phonebook - o; add record - a; edit record - e): ')
+    run = input('what do you want to do (search records - s; open phonebook - o; add record - a; edit record - e): ')
     fields = get_column_headers(FILE)
     if run == 's':
         d = {}
