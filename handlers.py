@@ -46,9 +46,10 @@ def read_file_data():
         with open(FILE, encoding='utf-8', mode='r', newline='') as file:
             body = []
             reader = csv.reader(file, delimiter=';')
-            header = next(reader)
+            next(reader)
             for row in reader:
                 body.append(row)
+            header = get_column_headers(FILE)
             table = convert_csv_to_table(header, body)
             return table
     except Exception as e:
