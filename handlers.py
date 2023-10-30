@@ -1,34 +1,28 @@
 import csv
+import pandas as pd
 
-from helpers import convert_csv_to_table, get_column_headers
+from helpers import convert_to_table, get_column_headers, get_search_results
 from settings import FILE
 
 
 def search(search_params: dict):
     try:
-        with open(FILE, mode='r', newline='') as file:
-            res_dict = []
-            res_list = []
-            reader = csv.DictReader(file, delimiter=';')
-            for row in reader:
-                match = True
-                for column, value in search_params.items():
-                    if row[column] != value:
-                        match = False
-                        break
-                if match:
-                    res_dict.append(row)
-            for res in res_dict:
-                res_list.append([res[key] for key in res])
-            header = get_column_headers(FILE)
-            table = convert_csv_to_table(header, res_list)
-            return table
+        res_list = []
+        search_result = get_search_results(search_params)
+        for res in search_result:
+            res_list.append([res[key] for key in res])
+        header = get_column_headers(FILE)
+        table = convert_to_table(header, res_list)
+        return table
     except Exception as e:
         return f'error reading a file: {str(e)}'
 
 
-def edit_record():
-    pass
+def edit_record(record: dict, data_to_update: dict):
+    df = pd.read_csv(FILE, delimiter=';', dtype=pd.StringDtype()).set_index('last_name')
+    df.loc[record.get('last_name'), [x for x in data_to_update.keys()]] = data_to_update
+    df.to_csv(FILE, sep=';')
+    return 'data updated'
 
 
 def add_record(rec: list):
@@ -50,7 +44,7 @@ def read_file_data():
             for row in reader:
                 body.append(row)
             header = get_column_headers(FILE)
-            table = convert_csv_to_table(header, body)
+            table = convert_to_table(header, body)
             return table
     except Exception as e:
         return f'error reading a file: {str(e)}'

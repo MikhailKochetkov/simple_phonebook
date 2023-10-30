@@ -6,7 +6,7 @@ from handlers import (
     search,
     add_record,
     edit_record)
-from helpers import get_column_headers
+from helpers import get_column_headers, get_search_results, input_data_dict
 from settings import FILE, HEADERS
 
 
@@ -18,14 +18,20 @@ def main():
     run = input('what do you want to do (search records - s; open phonebook - o; add record - a; edit record - e): ')
     fields = get_column_headers(FILE)
     if run == 's':
-        d = {}
-        for field in fields:
-            value = input(f'please enter {field.replace("_", " ")}: ')
-            if value:
-                d[field] = value
+        d = input_data_dict(0, len(HEADERS))
         print(search(d))
     if run == 'e':
-        print('feature in development')
+        rec_num = 0
+        print('whose data do you want to update?')
+        d = input_data_dict(0, len(HEADERS[:3]))
+        count = len(get_search_results(d))
+        print(f'found records to your request: {count}')
+        print(search(d))
+        if count > 1:
+            rec_num = int(input('which record do you want to update?: ')) - 1
+        print('what data do you want to change?')
+        fields_to_change = input_data_dict(3, len(HEADERS))
+        print(edit_record(get_search_results(d)[rec_num], fields_to_change))
     if run == 'o':
         print(read_file_data())
     if run == 'a':
