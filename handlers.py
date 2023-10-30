@@ -19,9 +19,10 @@ def search(search_params: dict):
 
 
 def edit_record(record: dict, data_to_update: dict):
-    df = pd.read_csv(FILE, delimiter=';', dtype=pd.StringDtype()).set_index('last_name')
-    df.loc[record.get('last_name'), [x for x in data_to_update.keys()]] = data_to_update
-    df.to_csv(FILE, sep=';')
+    df = pd.read_csv(FILE, delimiter=';', dtype=pd.StringDtype())
+    mask = df['last_name'] == record.get('last_name')
+    df.loc[mask, [x for x in data_to_update.keys()]] = list(data_to_update.values())
+    df.to_csv(FILE, sep=';', index=False)
     return 'data updated'
 
 
