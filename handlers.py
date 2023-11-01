@@ -1,7 +1,7 @@
 import csv
 import pandas as pd
 
-from helpers import convert_to_table, get_column_headers, get_search_results
+from helpers import convert_to_table, get_column_headers, get_search_results, get_max_id
 from settings import FILE
 
 
@@ -18,16 +18,18 @@ def search(search_params: dict):
         return f'error reading a file: {str(e)}'
 
 
-def edit_record(record: dict, data_to_update: dict):
-    df = pd.read_csv(FILE, delimiter=';', dtype=pd.StringDtype())
-    mask = df['last_name'] == record.get('last_name')
-    df.loc[mask, [x for x in data_to_update.keys()]] = list(data_to_update.values())
-    df.to_csv(FILE, sep=';', index=False)
+def edit_record(rec_id: str, data_to_update: dict):
+    df = pd.read_csv(FILE, delimiter=';', dtype=pd.StringDtype()).set_index('id')
+    df.loc[rec_id, [x for x in data_to_update.keys()]] = data_to_update
+    df.to_csv(FILE, sep=';')
     return 'data updated'
 
 
 def add_record(rec: list):
     try:
+        max_id = get_max_id()
+        new_id = max_id + 1
+        rec.insert(0, new_id)
         with open(FILE, mode='a', encoding='utf-8', newline='') as file:
             writer = csv.writer(file, delimiter=';')
             writer.writerow(rec)

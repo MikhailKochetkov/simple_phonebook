@@ -16,22 +16,23 @@ def main():
             writer = csv.writer(file, delimiter=';')
             writer.writerow(HEADERS)
     run = input('what do you want to do (search records - s; open phonebook - o; add record - a; edit record - e): ')
-    fields = get_column_headers(FILE)
+    fields = get_column_headers(FILE)[1:]
     if run == 's':
-        sd = input_data_dict(0, len(HEADERS))
+        sd = input_data_dict(1, len(HEADERS))
         print(search(sd))
     if run == 'e':
-        rec_num = 0
         print('whose data do you want to update?')
-        ed = input_data_dict(0, len(HEADERS[:3]))
+        ed = input_data_dict(1, len(HEADERS[:4]))
         count = len(get_search_results(ed))
         print(f'found records to your request: {count}')
         print(search(ed))
         if count > 1:
-            rec_num = int(input('which record do you want to update?: ')) - 1
+            rec_id = input('which record do you want to update?: ')
+        else:
+            rec_id = get_search_results(ed)[0]['id']
         print('what data do you want to change?')
-        fields_to_change = input_data_dict(3, len(HEADERS))
-        print(edit_record(get_search_results(ed)[rec_num], fields_to_change))
+        fields_to_change = input_data_dict(4, len(HEADERS))
+        print(edit_record(rec_id, fields_to_change))
         print(search(ed))
     if run == 'o':
         print(read_file_data())

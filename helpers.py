@@ -22,7 +22,7 @@ def get_column_headers(file_path):
     return headers
 
 
-def get_search_results(params: dict):
+def get_search_results(params: dict) -> list:
     with open(FILE, mode='r', newline='') as file:
         results = []
         reader = csv.DictReader(file, delimiter=';')
@@ -35,6 +35,17 @@ def get_search_results(params: dict):
             if match:
                 results.append(row)
         return results
+
+
+def get_max_id():
+    try:
+        with open(FILE, mode='r', encoding='utf-8', newline='') as file:
+            reader = csv.reader(file, delimiter=';')
+            next(reader)
+            max_id = max(int(row[0]) for row in reader)
+            return max_id
+    except FileNotFoundError:
+        return 0
 
 
 def input_data_dict(n: int, m: int):
