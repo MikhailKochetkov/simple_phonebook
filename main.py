@@ -6,8 +6,20 @@ from handlers import (
     search,
     add_record,
     edit_record)
-from helpers import get_column_headers, get_search_results, input_data_dict
-from settings import FILE, HEADERS
+from helpers import (
+    get_column_headers,
+    get_search_results,
+    input_data_dict)
+from settings import FILE
+
+HEADERS = [
+    'id',
+    'last_name',
+    'first_name',
+    'middle_name',
+    'organization',
+    'work_number',
+    'personal_number']
 
 
 def main():
@@ -15,12 +27,14 @@ def main():
         with open(FILE, mode='w', newline='') as file:
             writer = csv.writer(file, delimiter=';')
             writer.writerow(HEADERS)
-    run = input('what do you want to do (search records - s; open phonebook - o; add record - a; edit record - e): ')
+    choice = input('what do you want to do '
+                   '(search records - s; open phonebook - o; '
+                   'add record - a; edit record - e): ')
     fields = get_column_headers(FILE)[1:]
-    if run == 's':
+    if choice == 's':
         sd = input_data_dict(1, len(HEADERS))
         print(search(sd))
-    if run == 'e':
+    if choice == 'e':
         print('whose data do you want to update?')
         ed = input_data_dict(1, len(HEADERS[:4]))
         count = len(get_search_results(ed))
@@ -34,9 +48,9 @@ def main():
         fields_to_change = input_data_dict(4, len(HEADERS))
         print(edit_record(rec_id, fields_to_change))
         print(search(ed))
-    if run == 'o':
+    if choice == 'o':
         print(read_file_data())
-    if run == 'a':
+    if choice == 'a':
         record = [input(f'please enter {field.replace("_", " ")}: ') for field in fields]
         print(add_record(record))
 
