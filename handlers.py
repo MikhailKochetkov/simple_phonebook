@@ -25,14 +25,13 @@ def edit_record(rec_id: str, data_to_update: dict):
     return 'data updated'
 
 
-def add_record(rec: list):
+def add_record(rec: dict):
     try:
-        max_id = get_max_id()
-        new_id = max_id + 1
-        rec.insert(0, new_id)
+        next_id = get_max_id() + 1
+        new_rec = {'id': next_id} | rec
         with open(FILE, mode='a', encoding='utf-8', newline='') as file:
-            writer = csv.writer(file, delimiter=';')
-            writer.writerow(rec)
+            writer = csv.DictWriter(file, delimiter=';', fieldnames=new_rec.keys())
+            writer.writerow(new_rec)
         return 'the record added to file successfully'
     except Exception as e:
         return f'error adding a record to file: {str(e)}'

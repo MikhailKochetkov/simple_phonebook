@@ -9,7 +9,8 @@ from handlers import (
 from helpers import (
     get_column_headers,
     get_search_results,
-    input_data_dict)
+    input_data_dict,
+    input_data)
 from settings import FILE
 
 HEADERS = [
@@ -30,10 +31,14 @@ def main():
     choice = input('what do you want to do '
                    '(search records - s; open phonebook - o; '
                    'add record - a; edit record - e): ')
-    fields = get_column_headers(FILE)[1:]
+    fields = get_column_headers(FILE)
     if choice == 's':
-        sd = input_data_dict(1, len(HEADERS))
-        print(search(sd))
+        result = {}
+        generator = input_data(fields, start=1, stop=None)
+        for data in generator:
+            if any(data.values()):
+                result.update({k: v for k, v in data.items() if v})
+        print(f'search result:\n{search(result)}')
     if choice == 'e':
         print('whose data do you want to update?')
         ed = input_data_dict(1, len(HEADERS[:4]))
@@ -49,10 +54,13 @@ def main():
         print(edit_record(rec_id, fields_to_change))
         print(search(ed))
     if choice == 'o':
-        print(read_file_data())
+        print(f'result:\n{read_file_data()}')
     if choice == 'a':
-        record = [input(f'please enter {field.replace("_", " ")}: ') for field in fields]
-        print(add_record(record))
+        res = {}
+        gen = input_data(fields, start=1, stop=None)
+        for val in gen:
+            res.update(val)
+        print(add_record(res))
 
 
 if __name__ == '__main__':
