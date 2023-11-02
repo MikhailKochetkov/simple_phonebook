@@ -7,7 +7,7 @@ from handlers import (
     add_record,
     edit_record)
 from helpers import (
-    get_column_headers,
+    get_columns_headers,
     get_search_results,
     input_data_dict,
     input_data)
@@ -31,7 +31,7 @@ def main():
     choice = input('what do you want to do '
                    '(search records - s; open phonebook - o; '
                    'add record - a; edit record - e): ')
-    fields = get_column_headers(FILE)
+    fields = get_columns_headers(FILE)
     if choice == 's':
         result = {}
         generator = input_data(fields, start=1, stop=None)

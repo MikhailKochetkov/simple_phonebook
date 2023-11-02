@@ -1,7 +1,11 @@
 import csv
 import pandas as pd
 
-from helpers import convert_to_table, get_column_headers, get_search_results, get_max_id
+from helpers import (
+    convert_to_table,
+    get_columns_headers,
+    get_search_results,
+    get_max_id)
 from settings import FILE
 
 
@@ -11,7 +15,7 @@ def search(search_params: dict):
         search_result = get_search_results(search_params)
         for res in search_result:
             res_list.append([res[key] for key in res])
-        header = get_column_headers(FILE)
+        header = get_columns_headers(FILE)
         table = convert_to_table(header, res_list)
         return table
     except Exception as e:
@@ -45,7 +49,7 @@ def read_file_data():
             next(reader)
             for row in reader:
                 body.append(row)
-            header = get_column_headers(FILE)
+            header = get_columns_headers(FILE)
             table = convert_to_table(header, body)
             return table
     except Exception as e:

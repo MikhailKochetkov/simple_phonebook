@@ -15,7 +15,7 @@ def convert_to_table(th: list, td: list[list]):
     return table
 
 
-def get_column_headers(file_path):
+def get_columns_headers(file_path):
     with open(file_path, 'r') as f:
         first_line = f.readline()
         headers = first_line.strip().split(';')
@@ -51,7 +51,7 @@ def get_max_id():
 ## TODO: Remove input_data_dict
 def input_data_dict(n: int, m: int):
     data = {}
-    fields = get_column_headers(FILE)
+    fields = get_columns_headers(FILE)
     for field in fields[n:m]:
         value = input(f'please enter {field.replace("_", " ")}: ')
         if value:
