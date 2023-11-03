@@ -31,13 +31,13 @@ def main():
             writer.writerow(HEADERS)
     choice = input('what do you want to do '
                    '(search records - s; open phonebook - o; '
-                   'add record - a; edit record - e): ')
+                   'add record - a; update record - u): ')
     fields = get_columns_headers(FILE)
     if choice == 's':
         data_to_search = input_data(fields, start=1, stop=None)
         search_result = dict_generator(data_to_search)
         print(f'search result:\n{search(search_result)}')
-    if choice == 'e':
+    if choice == 'u':
         print('whose data do you want to update?')
         data_to_update = input_data(fields, start=1, stop=4)
         update_result = dict_generator(data_to_update)
