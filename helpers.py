@@ -5,7 +5,7 @@ from prettytable import PrettyTable
 from settings import FILE
 
 
-def convert_to_table(th: list, td: list[list]):
+def convert_to_table(th: list, td: list[list]) -> object:
     columns = len(th)
     table = PrettyTable(th)
     td_data = td[:]
@@ -15,14 +15,14 @@ def convert_to_table(th: list, td: list[list]):
     return table
 
 
-def get_columns_headers(file_path):
+def get_columns_headers(file_path) -> list[str]:
     with open(file_path, 'r') as f:
         first_line = f.readline()
         headers = first_line.strip().split(';')
     return headers
 
 
-def get_search_results(params: dict) -> list:
+def get_search_results(params: dict) -> list[str]:
     with open(FILE, mode='r', newline='') as file:
         results = []
         reader = csv.DictReader(file, delimiter=';')
@@ -37,7 +37,7 @@ def get_search_results(params: dict) -> list:
         return results
 
 
-def get_max_id():
+def get_max_id() -> int:
     try:
         with open(FILE, mode='r', encoding='utf-8', newline='') as file:
             reader = csv.reader(file, delimiter=';')
