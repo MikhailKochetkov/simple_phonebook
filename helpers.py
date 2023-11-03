@@ -48,17 +48,6 @@ def get_max_id():
         return 0
 
 
-## TODO: Remove input_data_dict
-def input_data_dict(n: int, m: int):
-    data = {}
-    fields = get_columns_headers(FILE)
-    for field in fields[n:m]:
-        value = input(f'please enter {field.replace("_", " ")}: ')
-        if value:
-            data[field] = value
-    return data
-
-
 def input_data(fields: list, start: int | None, stop: int | None) -> str:
     for field in fields[start:stop]:
         value = input(f'please enter {field.replace("_", " ")}: ')
