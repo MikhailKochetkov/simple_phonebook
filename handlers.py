@@ -36,7 +36,7 @@ def add_record(rec: dict):
         with open(FILE, mode='a', encoding='utf-8', newline='') as file:
             writer = csv.DictWriter(file, delimiter=';', fieldnames=new_rec.keys())
             writer.writerow(new_rec)
-        return 'the record added to file successfully'
+        return new_rec
     except Exception as e:
         return f'error adding a record to file: {str(e)}'
 

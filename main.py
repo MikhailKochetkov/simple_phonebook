@@ -11,7 +11,8 @@ from helpers import (
     get_search_results,
     input_data,
     dict_generator,
-    get_record_by_id)
+    get_record_by_id,
+    get_max_id)
 from settings import FILE
 
 HEADERS = [
@@ -61,7 +62,10 @@ def main():
         add_rec = input_data(fields, start=1, stop=None)
         for val in add_rec:
             add_result.update(val)
-        print(add_record(add_result))
+        add_record(add_result)
+        max_id = get_max_id()
+        new_record = get_record_by_id(max_id)
+        print(f'added record:\n{search(new_record)}')
 
 
 if __name__ == '__main__':
