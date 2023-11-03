@@ -60,3 +60,13 @@ def dict_generator(generator):
         if any(data.values()):
             result.update({k: v for k, v in data.items() if v})
     return result
+
+
+def get_record_by_id(record_id: int):
+    with open(FILE, mode='r', encoding='utf-8', newline='') as file:
+        reader = csv.reader(file, delimiter=';')
+        headers = next(reader)
+        for row in reader:
+            if row[0] == str(record_id):
+                return dict(zip(headers, row))
+    return None

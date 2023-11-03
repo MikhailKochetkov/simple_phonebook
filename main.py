@@ -10,7 +10,8 @@ from helpers import (
     get_columns_headers,
     get_search_results,
     input_data,
-    dict_generator)
+    dict_generator,
+    get_record_by_id)
 from settings import FILE
 
 HEADERS = [
@@ -51,6 +52,8 @@ def main():
         fields_to_change = input_data(fields, start=4, stop=None)
         change_result = dict_generator(fields_to_change)
         print(edit_record(rec_id, change_result))
+        updated_record = get_record_by_id(int(rec_id))
+        print(f'updated record:\n{search(updated_record)}')
     if choice == 'o':
         print(f'result:\n{read_file_data()}')
     if choice == 'a':
