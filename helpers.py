@@ -52,3 +52,11 @@ def input_data(fields: list, start: int | None, stop: int | None) -> str:
     for field in fields[start:stop]:
         value = input(f'please enter {field.replace("_", " ")}: ')
         yield {field: value}
+
+
+def dict_generator(generator):
+    result = {}
+    for data in generator:
+        if any(data.values()):
+            result.update({k: v for k, v in data.items() if v})
+    return result

@@ -9,7 +9,8 @@ from handlers import (
 from helpers import (
     get_columns_headers,
     get_search_results,
-    input_data)
+    input_data,
+    dict_generator)
 from settings import FILE
 
 HEADERS = [
@@ -32,41 +33,32 @@ def main():
                    'add record - a; edit record - e): ')
     fields = get_columns_headers(FILE)
     if choice == 's':
-        result = {}
-        generator = input_data(fields, start=1, stop=None)
-        for data in generator:
-            if any(data.values()):
-                result.update({k: v for k, v in data.items() if v})
-        print(f'search result:\n{search(result)}')
+        data_to_search = input_data(fields, start=1, stop=None)
+        search_result = dict_generator(data_to_search)
+        print(f'search result:\n{search(search_result)}')
     if choice == 'e':
         print('whose data do you want to update?')
-        e_result = {}
-        e_generator = input_data(fields, start=1, stop=4)
-        for e_data in e_generator:
-            if any(e_data.values()):
-                e_result.update({k: v for k, v in e_data.items() if v})
-        count = len(get_search_results(e_result))
+        data_to_update = input_data(fields, start=1, stop=4)
+        update_result = dict_generator(data_to_update)
+        count = len(get_search_results(update_result))
         print(f'found records to your request: {count}')
-        print(search(e_result))
+        print(search(update_result))
         if count > 1:
             rec_id = input('which record do you want to update?: ')
         else:
-            rec_id = get_search_results(e_result)[0]['id']
+            rec_id = get_search_results(update_result)[0]['id']
         print('what data do you want to change?')
-        fields_to_change_result = {}
         fields_to_change = input_data(fields, start=4, stop=None)
-        for fc in fields_to_change:
-            if any(fc.values()):
-                fields_to_change_result.update({k: v for k, v in fc.items() if v})
-        print(edit_record(rec_id, fields_to_change_result))
+        change_result = dict_generator(fields_to_change)
+        print(edit_record(rec_id, change_result))
     if choice == 'o':
         print(f'result:\n{read_file_data()}')
     if choice == 'a':
-        res = {}
-        gen = input_data(fields, start=1, stop=None)
-        for val in gen:
-            res.update(val)
-        print(add_record(res))
+        add_result = {}
+        add_rec = input_data(fields, start=1, stop=None)
+        for val in add_rec:
+            add_result.update(val)
+        print(add_record(add_result))
 
 
 if __name__ == '__main__':
