@@ -54,7 +54,7 @@ def input_data(fields: list, start: int | None, stop: int | None) -> str:
         yield {field: value}
 
 
-def dict_generator(generator):
+def dict_generator(generator) -> dict:
     result = {}
     for data in generator:
         if any(data.values()):
