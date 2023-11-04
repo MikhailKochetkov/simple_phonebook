@@ -2,10 +2,10 @@ import os
 import csv
 
 from handlers import (
-    read_file_data,
-    search,
+    read_file_data_output,
+    search_output,
     add_record,
-    edit_record)
+    update_record)
 from helpers import (
     get_columns_headers,
     get_search_results,
@@ -37,14 +37,14 @@ def main():
     if choice == 's':
         data_to_search = input_data(fields, start=1, stop=None)
         search_result = dict_generator(data_to_search)
-        print(f'search result:\n{search(search_result)}')
+        print(f'search result:\n{search_output(search_result)}')
     if choice == 'u':
         print('whose data do you want to update?')
         data_to_update = input_data(fields, start=1, stop=4)
         update_result = dict_generator(data_to_update)
         count = len(get_search_results(update_result))
         print(f'found records to your request: {count}')
-        print(search(update_result))
+        print(search_output(update_result))
         if count > 1:
             rec_id = input('which record do you want to update?: ')
         else:
@@ -52,11 +52,11 @@ def main():
         print('what data do you want to change?')
         fields_to_change = input_data(fields, start=4, stop=None)
         change_result = dict_generator(fields_to_change)
-        print(edit_record(rec_id, change_result))
+        print(update_record(rec_id, change_result))
         updated_record = get_record_by_id(int(rec_id))
-        print(f'updated record:\n{search(updated_record)}')
+        print(f'updated record:\n{search_output(updated_record)}')
     if choice == 'o':
-        print(f'result:\n{read_file_data()}')
+        print(f'result:\n{read_file_data_output()}')
     if choice == 'a':
         add_result = {}
         add_rec = input_data(fields, start=1, stop=None)
@@ -65,7 +65,7 @@ def main():
         add_record(add_result)
         max_id = get_max_id()
         new_record = get_record_by_id(max_id)
-        print(f'added record:\n{search(new_record)}')
+        print(f'added record:\n{search_output(new_record)}')
 
 
 if __name__ == '__main__':

@@ -62,7 +62,7 @@ def dict_generator(generator):
     return result
 
 
-def get_record_by_id(record_id: int):
+def get_record_by_id(record_id: int) -> dict | None:
     with open(FILE, mode='r', encoding='utf-8', newline='') as file:
         reader = csv.reader(file, delimiter=';')
         headers = next(reader)
