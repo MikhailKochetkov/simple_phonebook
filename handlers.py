@@ -6,7 +6,7 @@ from helpers import (
     get_columns_headers,
     get_search_results,
     get_max_id)
-from settings import FILE
+from settings import FILE, LINES_PER_PAGE
 
 
 def search_output(search_params: dict) -> object:
@@ -50,8 +50,22 @@ def read_file_data_output() -> object:
             next(reader)
             for row in reader:
                 body.append(row)
-            header = get_columns_headers(FILE)
-            table = convert_to_table(header, body)
-            return table
+            total_lines = len(body)
+            total_pages = (total_lines + LINES_PER_PAGE - 1) // LINES_PER_PAGE
+            current_page = 1
+            while True:
+                start = (current_page - 1) * LINES_PER_PAGE
+                end = start + LINES_PER_PAGE
+                page_lines = body[start:end]
+                header = get_columns_headers(FILE)
+                table = convert_to_table(header, page_lines)
+                if current_page == total_pages:
+                    yield table
+                    break
+                yield table
+                user_input = input('Press Enter (or "q" to quit) to continue: ')
+                if user_input.lower() == 'q':
+                    break
+                current_page += 1
     except Exception as e:
         return f'error reading a file: {str(e)}'

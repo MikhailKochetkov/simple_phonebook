@@ -56,7 +56,10 @@ def main():
         updated_record = get_record_by_id(int(rec_id))
         print(f'updated record:\n{search_output(updated_record)}')
     if choice == 'o':
-        print(f'result:\n{read_file_data_output()}')
+        print(f'result:')
+        open_result = read_file_data_output()
+        for table in open_result:
+            print(table)
     if choice == 'a':
         add_result = {}
         add_rec = input_data(fields, start=1, stop=None)
