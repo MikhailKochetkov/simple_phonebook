@@ -43,18 +43,21 @@ def main():
         data_to_update = input_data(fields, start=1, stop=4)
         update_result = dict_generator(data_to_update)
         count = len(get_search_results(update_result))
-        print(f'found records to your request: {count}')
-        print(search_output(update_result))
-        if count > 1:
-            rec_id = input('which record do you want to update?: ')
+        if count == 0:
+            print('no data was found matching the search parameters')
         else:
-            rec_id = get_search_results(update_result)[0]['id']
-        print('what data do you want to change?')
-        fields_to_change = input_data(fields, start=4, stop=None)
-        change_result = dict_generator(fields_to_change)
-        update_record(rec_id, change_result)
-        updated_record = get_record_by_id(int(rec_id))
-        print(f'updated record:\n{search_output(updated_record)}')
+            print(f'found records to your request: {count}')
+            print(search_output(update_result))
+            if count > 1:
+                rec_id = input('which record do you want to update?: ')
+            else:
+                rec_id = get_search_results(update_result)[0]['id']
+            print('what data do you want to change?')
+            fields_to_change = input_data(fields, start=4, stop=None)
+            change_result = dict_generator(fields_to_change)
+            update_record(rec_id, change_result)
+            updated_record = get_record_by_id(int(rec_id))
+            print(f'updated record:\n{search_output(updated_record)}')
     if choice == 'o':
         print(f'result:')
         open_result = read_file_data_output()
