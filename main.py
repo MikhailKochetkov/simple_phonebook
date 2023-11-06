@@ -68,10 +68,13 @@ def main():
         add_rec = input_data(fields, start=1, stop=None)
         for val in add_rec:
             add_result.update(val)
-        add_record(add_result)
-        max_id = get_max_id()
-        new_record = get_record_by_id(max_id)
-        print(f'added record:\n{search_output(new_record)}')
+        if not dict(filter(lambda x: x[1], add_result.items())):
+            print('no data to added')
+        else:
+            add_record(add_result)
+            max_id = get_max_id()
+            new_record = get_record_by_id(max_id)
+            print(f'added record:\n{search_output(new_record)}')
 
 
 if __name__ == '__main__':
