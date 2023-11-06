@@ -37,7 +37,7 @@ def main():
     if choice == 's':
         data_to_search = input_data(fields, start=1, stop=None)
         search_result = dict_generator(data_to_search)
-        print(f'search result:\n{search_output(search_result)}')
+        print(f'search results:\n{search_output(search_result)}')
     if choice == 'u':
         print('whose data do you want to update?')
         data_to_update = input_data(fields, start=1, stop=4)
