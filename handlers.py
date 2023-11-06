@@ -63,7 +63,7 @@ def read_file_data_output() -> object:
                     yield table
                     break
                 yield table
-                user_input = input('Press Enter (or "q" to quit) to continue: ')
+                user_input = input('press Enter (or "q" to quit) to continue: ')
                 if user_input.lower() == 'q':
                     break
                 current_page += 1
